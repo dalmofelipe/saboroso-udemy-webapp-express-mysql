@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html>
+<%- include('partials/head') -%>
+<body>
+
+  <div class="gtco-loader"></div>
+
+  <div id="page">
+    <%- include('partials/navbar') -%>
+    <%- include(`pages/${page}`) -%>
+    <%- include('partials/footer') -%>
+  </div>
+  
+  <div class="gototop js-top">
+    <a href="#" class="js-gotop">
+      <i class="icon-arrow-up"></i>
+    </a>
+  </div>
+
+  <%- include('partials/scripts') -%>
+
+</body>
+</html>
