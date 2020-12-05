@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 var { getMenus } = require('../includes/menus')
 let reservations = require('../includes/reservations')
+let contacts = require('../includes/contacts')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -36,23 +37,21 @@ router.get('/services', (req, res, next) => {
 })
 
 router.get('/contacts', (req, res, next) => {
-  res.render('layout_default', {
-    page: 'contacts',
-    title: 'Contato - Restaurant Soboroso!',
-    h1: 'Reserve uma Mesa!',
-    header_image: 'images/img_bg_2.jpg' 
-  })
+  contacts.render(req, res)
+})
+router.post('/contacts', (req, res, next) => {
+  if(!req.body.name || !req.body.email || !req.body.message) {
+    return contacts.render(req, res, "Preencha todos os campos!")
+  }
+
+  contacts.save(req.body)
+    .then(_ => contacts.render(req, res, null, "Messagem enviada com sucesso!"))
+    .catch(err => contacts.render(req, res, err.message))
 })
 
 router.get('/reservations', (req, res, next) => {
-  res.render('layout_default', { 
-    page: 'reservations',
-    title: 'Reserve - Restaurant Soboroso!',
-    h1: 'Reserve uma Mesa!',
-    header_image: 'images/img_bg_3.jpg'
-  })
+  reservations.render(req, res)
 })
-
 router.post('/reservations', (req, res, next) => {
   if(!req.body.name) {
     reservations.render(req, res, 'Digite o nome')
@@ -66,9 +65,7 @@ router.post('/reservations', (req, res, next) => {
     reservations.render(req, res, 'Digite em que horas')
   } else {
     reservations.save(req.body)
-      .then(_ => reservations.render(
-        req, res, null, "Reserva feita com sucesso!"
-      ))
+      .then(_ => reservations.render(req, res, null, "Reserva feita com sucesso!"))
       .catch(err => reservations.render(req, res, err.message))
   }
 })
