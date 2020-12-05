@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
-// var conn = require('../includes/db')
 var { getMenus } = require('../includes/menus')
+let reservations = require('../includes/reservations')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -51,6 +51,26 @@ router.get('/reservations', (req, res, next) => {
     h1: 'Reserve uma Mesa!',
     header_image: 'images/img_bg_3.jpg'
   })
+})
+
+router.post('/reservations', (req, res, next) => {
+  if(!req.body.name) {
+    reservations.render(req, res, 'Digite o nome')
+  } else if(!req.body.email) {
+    reservations.render(req, res, 'Digite o email')
+  } else if(!req.body.people) {
+    reservations.render(req, res, 'Informe a quantidade de pessoas')
+  } else if(!req.body.date) {
+    reservations.render(req, res, 'Informe a Data')
+  } else if(!req.body.time) {
+    reservations.render(req, res, 'Digite em que horas')
+  } else {
+    reservations.save(req.body)
+      .then(_ => reservations.render(
+        req, res, null, "Reserva feita com sucesso!"
+      ))
+      .catch(err => reservations.render(req, res, err.message))
+  }
 })
 
 module.exports = router;
