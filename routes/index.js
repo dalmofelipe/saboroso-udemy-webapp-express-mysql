@@ -4,10 +4,12 @@ var { getMenus } = require('../includes/menus')
 let reservations = require('../includes/reservations')
 let contacts = require('../includes/contacts')
 
+const LAYOUT = 'layout_default'
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   getMenus().then(results => {
-    res.render('layout_default', {
+    res.render(LAYOUT, {
       page: 'index',
       title: 'Restaurant Saboroso!',
       menus: results
@@ -17,7 +19,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/menus', (req, res, next) => {
   getMenus().then(results => {
-    res.render('layout_default', { 
+    res.render(LAYOUT, { 
       page: 'menus', 
       title: 'Menu - Restaurant Soboroso!',
       h1: 'Saboreie nosso menu!',
@@ -28,7 +30,7 @@ router.get('/menus', (req, res, next) => {
 })
 
 router.get('/services', (req, res, next) => {
-  res.render('layout_default', { 
+  res.render(LAYOUT, { 
     page: 'services',
     title: 'Serviços - Restaurant Soboroso!',
     h1: 'Reserve uma Mesa!',
