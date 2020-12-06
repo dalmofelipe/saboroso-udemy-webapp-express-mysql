@@ -3,14 +3,14 @@ const conn = require('../includes/db')
 
 module.exports = {
 
-  render(req, res, erro, success) { 
+  render(req, res, error, success) { 
     res.render('layout_default', { 
       page: 'reservations',
       title: 'Reserve - Restaurant Soboroso!',
       h1: 'Reserve uma Mesa!',
       header_image: 'images/img_bg_3.jpg',
       body: success ? {} : req.body,
-      erro,
+      error,
       success
     })
   },
